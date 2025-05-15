@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rusty Bote</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #181c24; color: #fff; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 3rem auto; background: #23283a; border-radius: 12px; box-shadow: 0 2px 16px #0008; padding: 2rem; }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .stats { margin: 2rem 0; }
+    .stat { font-size: 1.2rem; margin: 0.5rem 0; }
+    .install-btn { display: inline-block; background: #ffb300; color: #23283a; font-weight: bold; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-size: 1.2rem; margin-top: 1.5rem; transition: background 0.2s; }
+    .install-btn:hover { background: #ffd54f; }
+    .repo-link { color: #90caf9; text-decoration: none; }
+    .repo-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rusty Bote</h1>
+    <p>Open-source Discord voting bot for <strong>better voting</strong></p>
+    <p><a class="repo-link" href="https://github.com/kylegrover/rusty-bote" target="_blank">View on GitHub</a></p>
+    <div class="stats" id="stats">
+      <div class="stat">Servers Joined: <span id="guilds">...</span></div>
+      <div class="stat">Votes Cast: <span id="votes">...</span></div>
+      <div class="stat">Polls Created: <span id="polls">...</span></div>
+      <div class="stat">... with Star Voting: <span id="polls_star">...</span></div>
+      <div class="stat">... with Ranked Choice Voting: <span id="polls_ranked">...</span></div>
+      <div class="stat">... with Approval Voting: <span id="polls_approval">...</span></div>
+      <div class="stat">... with Plurality Voting: <span id="polls_plurality">...</span></div>
+    </div>
+    <a class="install-btn" href="https://discord.com/oauth2/authorize?client_id=1360286244856402222" target="_blank">Set Sail To Your Discord Server ⛵</a>
+  </div>
+  <script>
+    const api_url = 'https://rusty-bote-api-production.up.railway.app';
+    fetch(api_url+'/stats')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('guilds').textContent = data.guilds;
+        document.getElementById('votes').textContent = data.votes;
+        document.getElementById('polls').textContent = data.polls;
+        document.getElementById('polls_star').textContent = data.polls_by_type.star;
+        document.getElementById('polls_ranked').textContent = data.polls_by_type.ranked;
+        document.getElementById('polls_approval').textContent = data.polls_by_type.approval;
+        document.getElementById('polls_plurality').textContent = data.polls_by_type.plurality;
+      })
+      .catch(() => {
+        document.getElementById('stats').innerHTML = '<em>Stats unavailable</em>';
+      });
+  </script>
+</body>
+</html>
