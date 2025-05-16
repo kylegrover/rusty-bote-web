@@ -34,6 +34,7 @@
   </div>
   <script>
     const api_url = 'https://rusty-bote-api-production.up.railway.app';
+    // const api_url = 'localhost:3000';
     fetch(api_url+'/stats')
       .then(r => r.json())
       .then(data => {
