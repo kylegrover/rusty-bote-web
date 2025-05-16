@@ -32,22 +32,27 @@
     </div>
   </div>
   <script>
-    const api_url = 'https://rusty-bote-api-production.up.railway.app';
+    const api_url = 'https://rusty-bote-api-production.up.railway.app'
     // const api_url = 'localhost:3000';
     fetch(api_url+'/stats')
       .then(r => r.json())
       .then(data => {
-        document.getElementById('guilds').textContent = data.guilds;
-        document.getElementById('votes').textContent = data.votes;
-        document.getElementById('polls').textContent = data.polls;
-        document.getElementById('polls_star').textContent = data.polls_by_type.star;
-        document.getElementById('polls_ranked').textContent = data.polls_by_type.ranked;
-        document.getElementById('polls_approval').textContent = data.polls_by_type.approval;
-        document.getElementById('polls_plurality').textContent = data.polls_by_type.plurality;
+        let mappings = [
+          ['guilds', data.guilds],
+          ['votes', data.votes],
+          ['polls', data.polls],
+          ['polls_star', data.polls_by_type.star],
+          ['polls_ranked', data.polls_by_type.ranked],
+          ['polls_approval', data.polls_by_type.approval],
+          ['polls_plurality', data.polls_by_type.plurality]
+        ];
+        mappings.forEach(([id, value]) => {
+          document.getElementById(id).textContent = value;
+        })
       })
       .catch(() => {
-        document.getElementById('stats').innerHTML = '<em>Stats unavailable</em>';
-      });
+        document.getElementById('stats').innerHTML = '<em>Stats unavailable</em>'
+      })
   </script>
 </body>
 </html>
